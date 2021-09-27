@@ -1,7 +1,9 @@
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.*;
 public class Application {
 	
-	public Application(){
+	public Application() throws SQLException, ParseException{
 		
 		System.out.println("Application de gestion d\'une base de donnée");
 		System.out.println("Quelle table voulez-vous modifier ?");
@@ -9,6 +11,8 @@ public class Application {
 		System.out.println("a. La table \"Périodicité\"");
 		System.out.println("b. La table \"Abonnement\"");
 		System.out.println("c. La table \"Client\"");
+		System.out.println("d. La table \"Revue\"");
+
 		
 		Scanner sc = new Scanner(System.in);
 		String str = sc.nextLine();
@@ -104,20 +108,22 @@ public class Application {
 						
 					case 2:
 						
-						System.out.println("Veuillez saisir le numero du client a supprimer :");
-						Scanner cl = new Scanner(System.in);
-						int numcl = cl.nextInt();
+						System.out.println("Veuillez saisir le numero de l'abonnement :");
+						Scanner abo = new Scanner(System.in);
+						int numabo = abo.nextInt();
 						
-						a.SuppAbo(numcl);
+						a.SuppAbo(numabo);
 						
 						break;
 						
 					case 3:
 						
-						System.out.println("Pour quel client voulez-vous modifier quelque chose?");
+						System.out.println("Pour quel abonnement voulez-vous modifier quelque chose?");
 				    	
 				    	Scanner mod = new Scanner(System.in);
 						int choixmod = mod.nextInt();
+						
+						a.ModAbo(choixmod);
 				}
 				
 			case "c":
@@ -190,8 +196,141 @@ public class Application {
 				    	
 				    	Scanner mod = new Scanner(System.in);
 						int choixmod = mod.nextInt();
+						
+						System.out.println("Veuillez saisir le nouveau nom :");
+						
+						Scanner nom2 = new Scanner(System.in);
+						String newnom2 = nom2.nextLine();
+						
+						System.out.println("Veuillez saisir le nouveau prenom :");
+						
+						Scanner prenom2 = new Scanner(System.in);
+						String newprenom2 = prenom2.nextLine();
+						
+						System.out.println("Veuillez saisir le nouveau numero de rue :");
+						
+						Scanner norue2 = new Scanner(System.in);
+						String newrue2 = norue2.nextLine();
+						
+						System.out.println("Veuillez saisir la nouvelle voie :");
+						
+						Scanner voie2 = new Scanner(System.in);
+						String newvoie2 = voie2.nextLine();
+						
+						System.out.println("Veuillez saisir le nouveau code postal :");
+						
+						Scanner cp2 = new Scanner(System.in);
+						String newcp2 = cp2.nextLine();
+						
+						System.out.println("Veuillez saisir la nouvelle ville :");
+						
+						Scanner ville2 = new Scanner(System.in);
+						String newville2 = ville2.nextLine();
+						
+						System.out.println("Veuillez saisir le nouveau pays :");
+						
+						Scanner pays2 = new Scanner(System.in);
+						String newpays2 = pays2.nextLine();
+						
+						c.modifClient(newnom2, newprenom2, newcp2, newvoie2, str, newville2, newpays2, choixmod);
+						
+						break;
 				}
+				break;
 				
+			 case "d":
+                 Revue d =  new Revue();
+                
+                 System.out.println("Que voulez-vous faire ?");
+                 System.out.println("1. Ajouter une revue");
+                 System.out.println("2. Supprimer une revue");
+                 System.out.println("3. Modifier une revue");
+                
+                 Scanner revue = new Scanner(System.in);
+                 int Revue = revue.nextInt();
+                
+                 switch (Revue) {
+                     case 1:
+                         System.out.println("Veuillez saisir le titre :");
+                        
+                         Scanner titre = new Scanner(System.in);
+                         String newtitre = titre.nextLine();
+                        
+                         System.out.println("Veuillez saisir la description :");
+                        
+                         Scanner description = new Scanner(System.in);
+                         String newdescription = description.nextLine();
+                        
+                         System.out.println("Veuillez saisir le numero de tarif :");
+                        
+                         Scanner tarif_numero = new Scanner(System.in);
+                         double newtarif_numero = tarif_numero.nextDouble();
+                        
+                         System.out.println("Veuillez saisir le visuel :");
+                        
+                         Scanner visuel = new Scanner(System.in);
+                         String newvisuel = visuel.nextLine();
+                        
+                         System.out.println("Veuillez saisir l'identifiant de periodicite :");
+                        
+                         Scanner id_periodicite = new Scanner(System.in);
+                         int newid_periodicite = id_periodicite.nextInt();
+                        
+                  
+                        
+                         d.addRevue(newtitre, newdescription, newtarif_numero, newvisuel, newid_periodicite);
+                        
+                         System.out.println("C'est fait !");
+                        
+                         break;
+                        
+                     case 2:
+                        
+                         System.out.println("Veuillez saisir le numero de revue a supprimer :");
+                        
+                         Scanner deleteRevueScanner = new Scanner(System.in);
+                         int idRevue = deleteRevueScanner.nextInt();
+                        
+                         d.removeRevue(idRevue);
+                        
+                         break;
+                        
+                     case 3:
+                        
+                         System.out.println("Pour quel revue voulez-vous modifier quelque chose?");
+                        
+                         Scanner updateRevueScanner = new Scanner(System.in);
+                         int idRevue2 = updateRevueScanner.nextInt();
+                         
+                         System.out.println("Veuillez saisir le nouveau titre :");
+                         
+                         Scanner titre2 = new Scanner(System.in);
+                         String newtitre2 = titre2.nextLine();
+                        
+                         System.out.println("Veuillez saisir la nouvelle description :");
+                        
+                         Scanner description2 = new Scanner(System.in);
+                         String newdescription2 = description2.nextLine();
+                        
+                         System.out.println("Veuillez saisir le nouveau numero de tarif :");
+                        
+                         Scanner tarif_numero2 = new Scanner(System.in);
+                         double newtarif_numero2 = tarif_numero2.nextDouble();
+                        
+                         System.out.println("Veuillez saisir le nouveau visuel :");
+                        
+                         Scanner visuel2 = new Scanner(System.in);
+                         String newvisuel2 = visuel2.nextLine();
+                        
+                         System.out.println("Veuillez saisir le nouvel identifiant de periodicite :");
+                        
+                         Scanner id_periodicite2 = new Scanner(System.in);
+                         int newid_periodicite2 = id_periodicite2.nextInt();
+
+                         d.updateRevue(newtitre2, newdescription2, newtarif_numero2, newvisuel2, newid_periodicite2, idRevue2);
+                         break;
+				
+		}
 		}
 	}
 }
