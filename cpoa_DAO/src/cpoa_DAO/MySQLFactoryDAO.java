@@ -1,5 +1,8 @@
 package cpoa_DAO;
 
+import abonnement_DAO.IDAO_abonnement;
+import abonnement_DAO.MySqlDao_abonnement;
+
 /**
  * 
  * @author girard144u
@@ -39,4 +42,11 @@ public class MySQLFactoryDAO extends DAOFactory{
 		// TODO Auto-generated method stub
 		return MySqlDaoDureeTM.getInstance();
 	}
+	
+	@Override
+	public IDAO_abonnement getAbonnementDao() {
+		// TODO Auto-generated method stub
+		return MySqlDao_abonnement.getInstance();
+	}
+	
 }

@@ -1,5 +1,8 @@
 package cpoa_DAO;
 
+import abonnement_DAO.IDAO_abonnement;
+import abonnement_DAO.ListeMemoireDAO_abonnement;
+
 /**
  * 
  * @author girard144u
@@ -36,5 +39,11 @@ public class ListeMemoireDAOFactory extends DAOFactory {
 	public IDAO_duree getDureeDao() {
 		// TODO Auto-generated method stub
 		return ListeMemoireDaoDureeTM.getInstance();	
+		}
+	
+	@Override
+	public IDAO_abonnement getAbonnementDao() {
+		// TODO Auto-generated method stub
+		return ListeMemoireDAO_abonnement.getInstance();	
 		}
 }

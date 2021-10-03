@@ -1,67 +1,82 @@
 package cpoa_DAO_metier;
 
-import java.sql.Date;
-
+/**
+ * POJO
+ * @author tijou7u
+ *
+ */
 public class Abonnement {
-	
-	private int id_abo;
-	private int id_cl;
+	  
+	private int id;
+	private String date_debut;
+	private String date_fin;
+	private int id_client;
 	private int id_revue;
-	private Date datedeb;
-	private Date datefin;
 	
-	public Abonnement(int id_abo, int id_cl, int id_revue, Date datedeb, Date datefin) {
-		this.id_abo = id_abo;
-		this.id_cl = id_cl;
-		this.id_revue = id_revue;
-		this.datedeb = datedeb;
-		this.datefin = datefin;
+	public Abonnement(int id, String date_debut,String date_fin,int id_client,int id_revue) {
+		this.id = id;
+		this.date_debut = date_debut;
+		this.date_fin = date_fin;
+		this.id_client = id_client;
+		this.id_revue = id_client;
+		
 	}
-
-	public int getId_abo() {
-		return id_abo;
+	
+//	_____________________________________________getter_______________________________________________________________
+	public int getId() {
+		return id;
 	}
-
-	public void setId_abo(int id_abo) {
-		this.id_abo = id_abo;
+	public String getDateDebut() {
+		return date_debut;
 	}
-
-	public int getId_cl() {
-		return id_cl;
+	public String getDateFin() {
+		return date_fin;
 	}
-
-	public void setId_cl(int id_cl) {
-		this.id_cl = id_cl;
+	public int getIdClient() {
+		return id_client;
 	}
-
-	public int getId_revue() {
+	public int getIdRevue() {
 		return id_revue;
 	}
-
-	public void setId_revue(int id_revue) {
+	
+//________________________________________________setter_______________________________________________________
+	public void setId(int id) {
+		this.id = id;
+	}
+	public void setDateDebut(String date_debut) {
+		this.date_debut = date_debut;
+	}
+	public void setDateFin(String date_fin) {
+		this.date_fin = date_fin;
+	} 
+	public void setIdClient(int id_client) {
+		this.id_client = id_client;
+	}
+	public void setIdRevue(int id_revue) {
 		this.id_revue = id_revue;
 	}
-
-	public Date getDatedeb() {
-		return datedeb;
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Periodicite other = (Periodicite) obj;
+		if (id != other.getID()) {
+			return false;
+		}
+		return true;
 	}
-
-	public void setDatedeb(Date datedeb) {
-		this.datedeb = datedeb;
-	}
-
-	public Date getDatefin() {
-		return datefin;
-	}
-
-	public void setDatefin(Date datefin) {
-		this.datefin = datefin;
-	}
-
+	
 	@Override
 	public String toString() {
-		return "Abonnement [id_abo=" + id_abo + ", id_cl=" + id_cl + ", id_revue=" + id_revue + ", datedeb=" + datedeb
-				+ ", datefin=" + datefin + "]";
+		return "id = " + id + "/ date_debut" + date_debut + "/ date_fin" + date_fin + "/ id_client" + id_client + "/ id_revue" +id_revue;
 	}
-
 }

@@ -323,7 +323,7 @@ public class MySqlDao_client implements IDAO_client {
 		Connection laConnexion = connexion.creeConnexion();
 		Statement requete1 = laConnexion.createStatement();
 		
-		PreparedStatement requete = laConnexion.prepareStatement("insert into Periodicite(libelle) values(?)"); // A MODIFIER
+		PreparedStatement requete = laConnexion.prepareStatement("insert into Client(nom, prenom, no_rue, voie, code_postal, ville, pays) values(?, ?, ?, ?, ?, ?, ?)");
 		
 		requete.setString(1,objet.getNom());
 		requete.setString(2,objet.getPrenom());
