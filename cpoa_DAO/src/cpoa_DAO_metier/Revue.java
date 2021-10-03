@@ -1,5 +1,11 @@
 package cpoa_DAO_metier;
 
+/**
+ * 
+ * @author girard144u
+ *
+ */
+
 public class Revue {
 	
 	private int id_revue;

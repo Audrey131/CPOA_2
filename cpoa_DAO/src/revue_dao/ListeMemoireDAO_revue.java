@@ -1,5 +1,11 @@
 package revue_dao;
 
+/**
+ * 
+ * @author girard144u
+ *
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +17,6 @@ public class ListeMemoireDAO_revue implements IDAO_revue {
 
 	private List<Revue> data;
 
-	/* @return un objet de type IDaoPeriodicite en singleton. */
 	public static IDAO_revue getInstance() {
 		if (instance == null) {
 			instance = new ListeMemoireDAO_revue();
@@ -32,12 +37,7 @@ public class ListeMemoireDAO_revue implements IDAO_revue {
 
 	@Override
 	public Revue getById(int id) {
-//		for (Periodicite periodicite : data) {
-//			if (periodicite.getId() == id) {
-//				return periodicite;
-//			}
-//		}
-//		return null;
+
 		int idx = this.data.indexOf(new Revue(id, "test", "test", (float) 0.0, "test", 0));
 		if (idx == -1) {
 			throw new IllegalArgumentException("Aucun objet ne possède cet identifiant");
@@ -53,6 +53,14 @@ public class ListeMemoireDAO_revue implements IDAO_revue {
 
 	@Override
 	public boolean update(Revue objet) {
+		int idx = this.data.indexOf(objet);
+		if (idx == -1) {
+			throw new IllegalArgumentException("Tentative de modification d'un objet inexistant");
+		} else {
+			
+			this.data.set(idx, objet);
+		}
+		
 		return true;
 	}
 
@@ -68,13 +76,20 @@ public class ListeMemoireDAO_revue implements IDAO_revue {
 
 	@Override
 	public boolean delete(Revue objet) {
-		// TODO Auto-generated method stub
-		return false;
+		Revue supprime;
+		
+		int idx = this.data.indexOf(objet);
+		if (idx == -1) {
+			throw new IllegalArgumentException("Tentative de suppression d'un objet inexistant");
+		} else {
+			supprime = this.data.remove(idx);
+		}
+		
+		return objet.equals(supprime);
 	}
 
 	@Override
-	public String getByLibelle(String libelle) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Revue> getByLibelle(String libelle) {
+		return (ArrayList<Revue>) this.data;
 	}
 }

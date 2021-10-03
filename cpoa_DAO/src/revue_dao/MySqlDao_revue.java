@@ -1,5 +1,11 @@
 package revue_dao;
 
+/**
+ * 
+ * @author girard144u
+ *
+ */
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +30,31 @@ public class MySqlDao_revue implements IDAO_revue{
 
 	@Override
 	public Revue getById(int id) {
-		// TODO Auto-generated method stub
+		PreparedStatement requete;
+		
+		try {
+			requete = laConnexion.prepareStatement("select * from Revue where id_revue = ?");
+			requete.setInt(1, id);
+			
+			ResultSet res = requete.executeQuery();
+			while (res.next()) {
+				int idrev = res.getInt("id_revue");
+				String title = res.getString("titre");
+				String desc = res.getString("description");
+				float tarnum = res.getFloat("tarif_numero");
+				String visu = res.getString("visuel");
+				int idperiod = res.getInt("id_periodicite");
+				
+				return new Revue(idrev, title, desc, tarnum, visu, idperiod);  
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
+		
 	}
 
 	@Override
@@ -39,7 +68,16 @@ public class MySqlDao_revue implements IDAO_revue{
 			ResultSet res = requete.executeQuery();
 			
 			while (res.next()) {
-				liste.add(new Revue ());  
+				int id = res.getInt("id_revue");
+				String title = res.getString("titre");
+				String desc = res.getString("description");
+				float tarnum = res.getFloat("tarif_numero");
+				String visu = res.getString("visuel");
+				int idperiod = res.getInt("id_periodicite");
+				
+				liste.add(new Revue(id, title, desc, tarnum, visu, idperiod));  
+				
+				return liste;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -121,8 +159,33 @@ public class MySqlDao_revue implements IDAO_revue{
 	}
 
 	@Override
-	public String getByLibelle(String libelle) {
-		// TODO Auto-generated method stub
+	public List<Revue> getByLibelle(String libelle) {
+		PreparedStatement requete;
+		
+		try {
+			requete = laConnexion.prepareStatement("select * from Revue where titre = ?");
+			requete.setString(1, libelle);
+			ArrayList<Revue> liste = new ArrayList<Revue>();
+			
+			ResultSet res = requete.executeQuery();
+			while (res.next()) {
+				int idrev = res.getInt("id_revue");
+				String title = res.getString("titre");
+				String desc = res.getString("description");
+				float tarnum = res.getFloat("tarif_numero");
+				String visu = res.getString("visuel");
+				int idperiod = res.getInt("id_periodicite");
+				
+				liste.add(new Revue(idrev, title, desc, tarnum, visu, idperiod));
+				
+				
+			}
+			return liste;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

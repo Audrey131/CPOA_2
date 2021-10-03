@@ -1,5 +1,11 @@
 package periodicite_dao;
 
+/**
+ * 
+ * @author girard144u
+ *
+ */
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +16,7 @@ import java.util.List;
 
 import cpoa_DAO.Connexion;
 import cpoa_DAO_metier.Periodicite;
+import cpoa_DAO_metier.Revue;
 
 public class MySqlDaoPeriodicite implements IDAO_periodicite {
 	
@@ -29,17 +36,54 @@ public class MySqlDaoPeriodicite implements IDAO_periodicite {
 
 	@Override
 	public Periodicite getById(int id) {
-		// TODO Auto-generated method stub
+		PreparedStatement requete;
+		
+		try {
+			requete = maConnection.prepareStatement("select * from Periodicite where id_periodicite = ?");
+			requete.setInt(1, id);
+			
+			ResultSet res = requete.executeQuery();
+			while (res.next()) {
+				
+				int idperiod = res.getInt("id_periodicite");
+				String libelle= res.getString("libelle");
+				
+				return new Periodicite(idperiod, libelle);  
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public List<Periodicite> getAll() {
 		List<Periodicite> liste = new ArrayList<>();
-		// operation de Select // preparestatement
-//		while rest.next() {
-//			liste.add(new Periodicite(res.getId, rest.getlibbe));
-//		}
+		
+		PreparedStatement requete;
+		
+		try {
+			requete = maConnection.prepareStatement("select * from Periodicite");
+			
+			ResultSet res = requete.executeQuery();
+			
+			while (res.next()) {
+				int id = res.getInt("id_periodicite");
+				String libelle = res.getString("libelle");
+				
+				liste.add(new Periodicite(id, libelle));  
+				
+				return liste;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		// TODO Auto-generated method stub
 		return liste;
 	}
@@ -110,8 +154,28 @@ public class MySqlDaoPeriodicite implements IDAO_periodicite {
 	}
 
 	@Override
-	public String getByLibelle(String libelle) {
-		// TODO Auto-generated method stub
+	public List<Periodicite> getByLibelle(String libelle) {
+		PreparedStatement requete;
+		
+		try {
+			requete = maConnection.prepareStatement("select * from Periodicite where libelle = ?");
+			requete.setString(1, libelle);
+			ArrayList<Periodicite> liste = new ArrayList<Periodicite>();
+			
+			ResultSet res = requete.executeQuery();
+			while (res.next()) {
+				int idper = res.getInt("id_revue");
+				String lib = res.getString("libelle");
+				
+				liste.add(new Periodicite(idper, lib));
+				
+			}
+			return liste;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

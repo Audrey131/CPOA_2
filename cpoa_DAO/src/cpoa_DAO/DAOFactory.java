@@ -1,9 +1,16 @@
 package cpoa_DAO;
 
-import cpoa_DAO_metier.*;
+/**
+ * 
+ * @author girard144u
+ *
+ */
+
+import duree_DAO.IDAO_duree;
 import periodicite_dao.*;
 import revue_dao.IDAO_revue;
 import ENUMERATION.*;
+import client_DAO.IDAO_client;
 
 public abstract class DAOFactory {
 	
@@ -27,4 +34,8 @@ public abstract class DAOFactory {
 
 	public abstract IDAO_periodicite getPeriodiciteDao();
 	public abstract IDAO_revue getRevueDao();
+	public abstract IDAO_client getClientDao();
+	public abstract IDAO_duree getDureeDao();
+
+	
 }

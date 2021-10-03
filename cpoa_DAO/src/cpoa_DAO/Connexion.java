@@ -1,5 +1,11 @@
 package cpoa_DAO;
 
+/**
+ * 
+ * @author girard144u
+ *
+ */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

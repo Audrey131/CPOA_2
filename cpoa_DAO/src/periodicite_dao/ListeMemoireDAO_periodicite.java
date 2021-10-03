@@ -1,9 +1,16 @@
 package periodicite_dao;
 
+/**
+ * 
+ * @author girard144u
+ *
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cpoa_DAO_metier.Periodicite;
+import cpoa_DAO_metier.Revue;
 
 public class ListeMemoireDAO_periodicite implements IDAO_periodicite {
 
@@ -11,7 +18,6 @@ public class ListeMemoireDAO_periodicite implements IDAO_periodicite {
 
 	private List<Periodicite> data;
 
-	/* @return un objet de type IDaoPeriodicite en singleton. */
 	public static IDAO_periodicite getInstance() {
 		if (instance == null) {
 			instance = new ListeMemoireDAO_periodicite();
@@ -32,12 +38,7 @@ public class ListeMemoireDAO_periodicite implements IDAO_periodicite {
 
 	@Override
 	public Periodicite getById(int id) {
-//		for (Periodicite periodicite : data) {
-//			if (periodicite.getId() == id) {
-//				return periodicite;
-//			}
-//		}
-//		return null;
+		
 		int idx = this.data.indexOf(new Periodicite(id, "test"));
 		if (idx == -1) {
 			throw new IllegalArgumentException("Aucun objet ne possède cet identifiant");
@@ -53,13 +54,21 @@ public class ListeMemoireDAO_periodicite implements IDAO_periodicite {
 
 	@Override
 	public boolean update(Periodicite objet) {
+		int idx = this.data.indexOf(objet);
+		if (idx == -1) {
+			throw new IllegalArgumentException("Tentative de modification d'un objet inexistant");
+		} else {
+			
+			this.data.set(idx, objet);
+		}
+		
 		return true;
 	}
 
 	@Override
 	public boolean create(Periodicite objet) {
 		objet.setNo(3);
-		// Ne fonctionne que si l'objet métier est bien fait...
+		
 		while (this.data.contains(objet)) {
 			objet.setNo(objet.getID() + 1);
 		}
@@ -68,13 +77,20 @@ public class ListeMemoireDAO_periodicite implements IDAO_periodicite {
 
 	@Override
 	public boolean delete(Periodicite objet) {
-		// TODO Auto-generated method stub
-		return false;
+		Periodicite supprime;
+		
+		int idx = this.data.indexOf(objet);
+		if (idx == -1) {
+			throw new IllegalArgumentException("Tentative de suppression d'un objet inexistant");
+		} else {
+			supprime = this.data.remove(idx);
+		}
+		
+		return objet.equals(supprime);
 	}
 
 	@Override
-	public String getByLibelle(String libelle) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Periodicite> getByLibelle(String libelle) {
+		return (ArrayList<Periodicite>) this.data;
 	}
 }
