@@ -9,6 +9,7 @@ public class ProcessAdresse {
 		normalizeVille(adresse);
 		normalizeVoie(adresse);
 		normalizeNumVoie(adresse);
+		normalizeCP(adresse);
 		return adresse;
 	}
 
@@ -341,6 +342,7 @@ public class ProcessAdresse {
 	}
 	
 	public Adresse normalizeNumVoie(Adresse adresse) {
+		
 		if (adresse != null && adresse.getNumVoie() != null) {
 			
 		
@@ -355,5 +357,35 @@ public class ProcessAdresse {
 	}
 		return adresse;
 	}
+	
+	 public Adresse normalizeCP(Adresse adresse) {
+		 if (adresse != null && adresse.getCode_postal() != null) {
+
+	        String code_postal = adresse.getCode_postal().replaceAll("[^ 0-9]","").trim();
+	        if (code_postal != null && adresse.getCode_postal() != null) {
+	            
+	            int longueurCP = code_postal.length();
+	            
+	            if (longueurCP == 4 ) 
+	                {
+	                //rajouter un 0 en tete de chaine.                
+	                adresse.setCode_postal ('0' + code_postal);
+	                }
+	            else if (longueurCP ==5)
+	            {
+	                adresse.setCode_postal(code_postal);
+	            }
+	        
+	            else {
+	                //si la longueur de la chaine est vide
+	                adresse.setCode_postal("Inconnu");
+	            }
+
+	           
+	            }
+	        return adresse;
+	    }
+		return adresse;
+	 }
 	
 }

@@ -227,6 +227,34 @@ public class ProcessAdresseTest {
         adresse.setNumVoie("");
         assertEquals(",", process.normalize(adresse).getNumVoie());
     }
+    
+    @Test
+    public void TestNormalizeCodePostal() {
+        Adresse adresse = new Adresse();
+        
+      
+        //TestNormalizeCodePostalReplaceAll
+        adresse.setCode_postal("L-8200");
+        assertEquals("08200", process.normalize(adresse).getCode_postal()) ;
+        
+        
+        //TestNormalizeCodePostalInconnu
+        adresse.setCode_postal("");
+        assertEquals("Inconnu", process.normalize(adresse).getCode_postal()) ;
+        
+        //TestNormalizeCodePostalDifferentDe4et5
+        adresse.setCode_postal("000000000008200");
+        assertEquals("Inconnu", process.normalize(adresse).getCode_postal()) ;
+        
+         //TestNormalizeCodePostalFrancais
+        adresse.setCode_postal("8200");
+        assertEquals("08200", process.normalize(adresse).getCode_postal());
+        
+        //TestNormalizeCodePostalA5Caracteres
+        adresse.setCode_postal("08200");
+        assertEquals("08200", process.normalize(adresse).getCode_postal()) ;
+    
+       }
 	
 	
 }
