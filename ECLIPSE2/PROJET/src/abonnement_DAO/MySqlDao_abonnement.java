@@ -10,10 +10,10 @@ import java.util.List;
 
 import cpoa_DAO.*;
 import cpoa_DAO_metier.Abonnement;
+import cpoa_DAO_metier.ClientsTM;
 
 
-
-/* Cette classe va simuler un accès à la DB. */
+/* Cette classe va simuler un accï¿½s ï¿½ la DB. */
 public class MySqlDao_abonnement implements IDAO_abonnement {
 
 	private static MySqlDao_abonnement instance;
@@ -50,10 +50,12 @@ public class MySqlDao_abonnement implements IDAO_abonnement {
 				String date_fin = res.getString("date_fin");	
 				int id_client = res.getInt("id_client");
 				int id_revue = res.getInt("id_revue");
-				
-				Abonnement Abo = new Abonnement (id_abonnement, date_debut, date_fin,id_client,id_revue);
-				
-				a = new Abonnement(res.getInt(1), res.getString("date_debut"),res.getString("date_fin"),res.getInt(1),res.getInt(1));
+				int id_duree = res.getInt("id_duree_choisie");
+
+
+				Abonnement Abo = new Abonnement (id_abonnement, date_debut, date_fin,id_client,id_revue, id_duree);
+
+				a = new Abonnement(res.getInt(1), res.getString("date_debut"),res.getString("date_fin"),res.getInt(1),res.getInt(1), res.getInt("id_duree_choisie"));
 			}
 		} catch (SQLException sqle) {
 			System.out.println("Pb select" + sqle.getMessage());
@@ -79,10 +81,12 @@ public class MySqlDao_abonnement implements IDAO_abonnement {
 				String date_fin = res.getString("date_fin");	
 				int id_client = res.getInt("id_client");
 				int id_revue = res.getInt("id_revue");
-				
-				Abonnement Abo = new Abonnement (id_abonnement, date_debut, date_fin,id_client,id_revue);
-				
-				a = new Abonnement(res.getInt(1), res.getString("date_debut"),res.getString("date_fin"),res.getInt(1),res.getInt(1));
+				int id_duree = res.getInt("id_duree_choisie");
+
+
+				Abonnement Abo = new Abonnement (id_abonnement, date_debut, date_fin,id_client,id_revue, id_duree);
+
+				a = new Abonnement(res.getInt(1), res.getString("date_debut"),res.getString("date_fin"),res.getInt(1),res.getInt(1), res.getInt("id_duree_choisie"));
 			}
 		} catch (SQLException sqle) {
 			System.out.println("Pb select" + sqle.getMessage());
@@ -114,10 +118,12 @@ public class MySqlDao_abonnement implements IDAO_abonnement {
 						String date_fin = res.getString("date_fin");	
 						int id_client = res.getInt("id_client");
 						int id_revue = res.getInt("id_revue");
-						
-						Abonnement Abo = new Abonnement (id_abonnement, date_debut, date_fin,id_client,id_revue);
-						
-						a = new Abonnement(res.getInt(1), res.getString("date_debut"),res.getString("date_fin"),res.getInt(1),res.getInt(1));
+						int id_duree = res.getInt("id_duree_choisie");
+
+
+						Abonnement Abo = new Abonnement (id_abonnement, date_debut, date_fin,id_client,id_revue, id_duree);
+
+						a = new Abonnement(res.getInt(1), res.getString("date_debut"),res.getString("date_fin"),res.getInt(1),res.getInt(1), res.getInt("id_duree_choisie"));
 					}
 				} catch (SQLException sqle) {
 					System.out.println("Pb select" + sqle.getMessage());
@@ -145,10 +151,12 @@ public class MySqlDao_abonnement implements IDAO_abonnement {
 						String date_fin = res.getString("date_fin");	
 						int id_client = res.getInt("id_client");
 						int id_revue = res.getInt("id_revue");
-						
-						Abonnement Abo = new Abonnement (id_abonnement, date_debut, date_fin,id_client,id_revue);
-						
-						a = new Abonnement(res.getInt(1), res.getString("date_debut"),res.getString("date_fin"),res.getInt(1),res.getInt(1));
+						int id_duree = res.getInt("id_duree_choisie");
+
+
+						Abonnement Abo = new Abonnement (id_abonnement, date_debut, date_fin,id_client,id_revue, id_duree);
+
+						a = new Abonnement(res.getInt(1), res.getString("date_debut"),res.getString("date_fin"),res.getInt(1),res.getInt(1), res.getInt("id_duree_choisie"));
 					}
 				} catch (SQLException sqle) {
 					System.out.println("Pb select" + sqle.getMessage());
@@ -176,10 +184,11 @@ public class MySqlDao_abonnement implements IDAO_abonnement {
 						String date_fin = res.getString("date_fin");	
 						int id_client = res.getInt("id_client");
 						int id_revue = res.getInt("id_revue");
+						int id_duree = res.getInt("id_duree_choisie");
 						
-						Abonnement Abo = new Abonnement (id_abonnement, date_debut, date_fin,id_client,id_revue);
+						Abonnement Abo = new Abonnement (id_abonnement, date_debut, date_fin,id_client,id_revue, id_duree);
 						
-						a = new Abonnement(res.getInt(1), res.getString("date_debut"),res.getString("date_fin"),res.getInt(1),res.getInt(1));
+						a = new Abonnement(res.getInt(1), res.getString("date_debut"),res.getString("date_fin"),res.getInt(1),res.getInt(1), res.getInt("id_duree_choisie"));
 					}
 				} catch (SQLException sqle) {
 					System.out.println("Pb select" + sqle.getMessage());
@@ -193,8 +202,36 @@ public class MySqlDao_abonnement implements IDAO_abonnement {
 	
 	@Override
 	public List<Abonnement> getAll() {
+		Connection laConnexion = connexion.creeConnexion();
+
 		List<Abonnement> liste = new ArrayList<>();
-		
+		PreparedStatement requete;
+
+		try {
+			requete = laConnexion.prepareStatement("select * from Abonnement");
+
+			ResultSet res = requete.executeQuery();
+
+			while (res.next()) {
+				int id = res.getInt("id_abonnement");
+				String date_deb = res.getString("date_debut");
+				String date_fin = res.getString("date_fin");
+				int idcl = res.getInt("id_client");
+				int idrev = res.getInt("id_revue");
+				int duree = res.getInt("id_duree_choisie");
+
+				liste.add(new Abonnement(id, date_deb, date_fin, idcl, idrev, duree));
+
+
+			}
+			return liste;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+		// TODO Auto-generated method stub
 		return liste;
 	}
 
@@ -219,7 +256,7 @@ public class MySqlDao_abonnement implements IDAO_abonnement {
 
 				int nbLignes = requete.executeUpdate();
 				
-				System.out.println("La modification de l'abonnement a été effectuée");
+				System.out.println("La modification de l'abonnement a ï¿½tï¿½ effectuï¿½e");
 				return true;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -254,7 +291,7 @@ public class MySqlDao_abonnement implements IDAO_abonnement {
 
 		int nbLignes = requete.executeUpdate();
 		
-		System.out.println("L'ajout de l'abonnement a été effectuée");
+		System.out.println("L'ajout de l'abonnement a ï¿½tï¿½ effectuï¿½e");
 		return true;
 		}
 		catch (SQLException e) {
@@ -285,7 +322,7 @@ public class MySqlDao_abonnement implements IDAO_abonnement {
 
 				int nbLignes = requete.executeUpdate();
 				
-				System.out.println("La suppression de l'abonement a été effectuée");
+				System.out.println("La suppression de l'abonement a ï¿½tï¿½ effectuï¿½e");
 				return true;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
