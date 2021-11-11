@@ -32,10 +32,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.Float.valueOf;
 
@@ -94,9 +93,12 @@ public class CtrlClient implements Initializable {
     @FXML
     private TextField txt_voie;
 
-    @Override // permet d'initialiser ???
-    public void initialize(URL location, ResourceBundle resources){
+    @FXML
+    private ListView listview_client;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources){
+        this.initListView();
     }
 
     public void creerClient(ActionEvent event) {
@@ -116,24 +118,73 @@ public class CtrlClient implements Initializable {
 
         String pays = this.txt_pays.getText();
 
+        if ((num_rue == "") || (code_postal == "") || (nom == "") || (prenom == "") || (voie == "") || (ville == "") || (pays == "")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Ajout de client");
+            alert.setContentText("Veuillez remplir tout les champs !");
 
-        connexion = new Connexion();
-        Connection laConnexion = connexion.creeConnexion();
+            alert.showAndWait();
+        }
+        else {
 
-        DAOFactory dao = MySQLFactoryDAO.getDaoFactory(Enumerations.MYSQL);
-        List<ClientsTM> cl = dao.getClientDao().getAll();
+            connexion = new Connexion();
+            Connection laConnexion = connexion.creeConnexion();
 
-        int clnb = cl.size();
+            DAOFactory dao = MySQLFactoryDAO.getDaoFactory(Enumerations.MYSQL);
+            List<ClientsTM> cl = dao.getClientDao().getAll();
 
-        int idclient = clnb+1;
-        ClientsTM newClient = new ClientsTM(idclient, nom,prenom, num_rue , voie, code_postal, ville, pays);
+            int clnb = cl.size();
 
-        instance.create(newClient);
+            int idclient = clnb + 1;
+            ClientsTM newClient = new ClientsTM(idclient, nom, prenom, num_rue, voie, code_postal, ville, pays);
 
+            try {
+                dao.getClientDao().create(newClient);
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Ajout de client");
+                alert.setContentText("Client créé avec succès !");
+
+                alert.showAndWait();
+
+                this.initListView();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void supp(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Suppression de client");
+        alert.setContentText("Etes-vous sûr de vouloir supprimer le client sélectionné ?");
 
+        Optional<ButtonType> option = alert.showAndWait();
+
+        if (option.get() == ButtonType.OK){
+            String strList = (String) listview_client.getSelectionModel().getSelectedItem(); //Récupère la ligne entière
+            System.out.println(strList);
+
+            String strList2 = strList.substring(strList.indexOf('°')).trim(); //Récupère la ligne jusqu'au °
+            System.out.println(strList2);
+
+            String strList3 = strList2.substring(strList2.indexOf('|')).trim();
+            System.out.println(strList3);
+
+            Matcher matcher = Pattern.compile("\\d+").matcher(strList3);
+            matcher.find();
+            int selectRev = Integer.valueOf(matcher.group());
+
+
+
+            DAOFactory dao = MySQLFactoryDAO.getDaoFactory(Enumerations.MYSQL);
+            Revue supp = dao.getRevueDao().getById(selectRev);
+
+
+            dao.getRevueDao().delete(supp);
+            this.initListView();
+
+        }
     }
 
     public void switchAccueil(ActionEvent event){
@@ -146,6 +197,30 @@ public class CtrlClient implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void initListView(){
+        DAOFactory daoData = DAOFactory.getDaoFactory(Enumerations.MYSQL);
+        List<ClientsTM> tridata = daoData.getClientDao().getAll();
+
+        List<String> lbl = new ArrayList<>();
+
+        for (ClientsTM rev: tridata) { //Boucle pour traiter chaque client
+            int intcl = rev.getId_client();
+            String idcl = String.valueOf(intcl);
+
+            String nom = rev.getNom();
+            String prenom = rev.getPrenom();
+            String num_rue = rev.getNoRue();
+            String voie = rev.getVoie();
+            String code_postal= rev.getCodePostal();
+            String ville = rev.getVille();
+            String pays = rev.getPays();
+
+            lbl.add( nom + " || " + prenom + " || " + num_rue + " || " + voie + " || " + code_postal+ " || " +ville+ " || " +pays + " || n°" +idcl );
+        }
+
+        this.listview_client.setItems(FXCollections.observableArrayList(lbl));
     }
 
 }

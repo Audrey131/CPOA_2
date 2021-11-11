@@ -18,6 +18,7 @@ import java.util.List;
 import cpoa_DAO.*;
 
 import cpoa_DAO_metier.ClientsTM;
+import cpoa_DAO_metier.Revue;
 
 public class MySqlDao_client implements IDAO_client {
 
@@ -280,8 +281,38 @@ public class MySqlDao_client implements IDAO_client {
 	@Override
 	
 	public List<ClientsTM> getAll() {
+
+		Connection laConnexion = connexion.creeConnexion();
+
 		List<ClientsTM> liste = new ArrayList<>();
-		
+		PreparedStatement requete;
+
+		try {
+			requete = laConnexion.prepareStatement("select * from Client");
+
+			ResultSet res = requete.executeQuery();
+
+			while (res.next()) {
+				int id = res.getInt("id_client");
+				String nom = res.getString("nom");
+				String prenom = res.getString("prenom");
+				String norue = res.getString("no_rue");
+				String voie = res.getString("voie");
+				String codepostal = res.getString("code_postal");
+				String ville = res.getString("ville");
+				String pays = res.getString("pays");
+
+				liste.add(new ClientsTM(id, nom, prenom, norue, voie, codepostal, ville, pays));
+
+
+			}
+			return liste;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
 		// TODO Auto-generated method stub
 		return liste;
 	}
@@ -304,7 +335,7 @@ public class MySqlDao_client implements IDAO_client {
 
 			int nbLignes = requete.executeUpdate();
 			
-			System.out.println("La modification du client a été effectuée");
+			System.out.println("La modification du client a ï¿½tï¿½ effectuï¿½e");
 			return true;
 		} 
 		catch (SQLException e) {
@@ -335,7 +366,7 @@ public class MySqlDao_client implements IDAO_client {
 		
 		int nbLignes = requete.executeUpdate();
 		
-    	System.out.println("L'ajout du client a été effectué");
+    	System.out.println("L'ajout du client a ï¿½tï¿½ effectuï¿½");
     	
 		return true;
 		} 
@@ -358,7 +389,7 @@ public class MySqlDao_client implements IDAO_client {
 		requete.setInt(1,objet.getId_client());
 		int nbLignes = requete.executeUpdate();
 		
-    	System.out.println("La suppression du client a été effectuée");
+    	System.out.println("La suppression du client a ï¿½tï¿½ effectuï¿½e");
     	
 		return false;
 		}

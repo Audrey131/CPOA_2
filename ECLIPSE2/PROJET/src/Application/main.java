@@ -39,9 +39,7 @@ public class main extends Application {
 
     }
 
-    public class vueRevue extends Stage{
 
-    }
 
     public static void main(String[] args) {
 

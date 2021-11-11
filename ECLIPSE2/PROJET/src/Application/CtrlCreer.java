@@ -5,6 +5,7 @@ import abonnement_DAO.MySqlDao_abonnement;
 import cpoa_DAO.Connexion;
 import cpoa_DAO.DAOFactory;
 import cpoa_DAO.MySQLFactoryDAO;
+import cpoa_DAO_metier.ClientsTM;
 import cpoa_DAO_metier.Periodicite;
 import cpoa_DAO_metier.Revue;
 import duree_DAO.MySqlDaoDureeTM;
@@ -31,6 +32,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.Float.valueOf;
 
@@ -95,30 +98,16 @@ public class CtrlCreer implements Initializable {
 
         this.cbb_period.setItems(FXCollections.observableArrayList(period)); //initialise la ccb périodicité
 
-        DAOFactory daoData = DAOFactory.getDaoFactory(Enumerations.MYSQL);
-        List<Revue> tridata = daoData.getRevueDao().getAll();
-
-        List<String> lbl = new ArrayList<>();
-
-        for (Revue rev: tridata) { //Boucle pour traiter chaque Revue
-            String title = rev.getTitre();
-            String desc = rev.getDescription();
-            float price = rev.getTarif_numero();
-
-            lbl.add(title + " || " + desc + " || " + price + "€");
-        }
-
-        this.listview_data.setItems(FXCollections.observableArrayList(lbl)); //Initialise les revues deja presentes dans la bdd
+        this.initRevue();
 
     }
 
     public void create(ActionEvent event) {
         String tarifstring = this.txt_tarif.getText().trim();
-
         String titre = this.txt_titre.getText().trim();
         String desc = this.txt_desc.getText().trim();
         String perio = this.cbb_period.getSelectionModel().getSelectedItem();
-        String visu = this.lbl_img.toString().trim();
+        String visu = this.img_view.getId(); // NE RETOURNE PAS LA BONNE VALEUR
 
         if ((tarifstring == "") || (desc == "") || (perio == "")){
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -127,36 +116,52 @@ public class CtrlCreer implements Initializable {
 
             alert.showAndWait();
         }else {
+
             float tarif = valueOf(tarifstring);
 
             connexion = new Connexion();
             Connection laConnexion = connexion.creeConnexion();
 
-            String cbb = cbb_period.toString();
+            String cbb = cbb_period.getValue();
+            System.out.println(cbb);
 
             PreparedStatement requete;
 
             try {
+
+                //Recuperation de l'ID de la periodicitée sélectionnée
+
                 requete = laConnexion.prepareStatement("select id_periodicite from Periodicite where libelle = ?");
                 requete.setString(1, cbb);
 
                 ResultSet res = requete.executeQuery();
 
-                int idperiod = Integer.parseInt(res.getObject(1).toString());
-                Revue newrev = new Revue(10, titre, desc, tarif, visu, idperiod);
+                if(res.next()){
+                    int idperiod = Integer.parseInt(String.valueOf(res.getInt(1)));
 
-                //instance.create(newrev);
-                //String aff = newrev.toString();
-                //System.out.println(aff);
+                    //Recuperation de l'ID de la nouvelle revue
+                    DAOFactory dao = MySQLFactoryDAO.getDaoFactory(Enumerations.MYSQL);
+                    List<Revue> revue = dao.getRevueDao().getAll();
 
-                DAOFactory dao = MySQLFactoryDAO.getDaoFactory(Enumerations.MYSQL);
-                dao.getRevueDao().create(newrev);
+                    int revuenb = revue.size();
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Création de revue");
-                alert.setContentText("Revue créée avec succès !");
+                    int idrevue = revuenb+1;
+                    Revue newrev = new Revue(idrevue, titre, desc, tarif, visu, idperiod);
 
-                alert.showAndWait();
+                    DAOFactory dao2 = MySQLFactoryDAO.getDaoFactory(Enumerations.MYSQL);
+                    dao2.getRevueDao().create(newrev);
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Création de revue");
+                    alert.setContentText("Revue créée avec succès !");
+
+                    alert.showAndWait();
+
+                    this.initRevue();
+                }
+
+
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -179,16 +184,28 @@ public class CtrlCreer implements Initializable {
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == ButtonType.OK){
-            String strList = (String) listview_data.getSelectionModel().getSelectedItem();
-            String strList2 = strList.substring(strList.indexOf('|'));
-            String selectRev = strList.substring(strList.indexOf(strList2)).trim();
+            String strList = (String) listview_data.getSelectionModel().getSelectedItem(); //Récupère la ligne entière
+            System.out.println(strList);
+
+            String strList2 = strList.substring(strList.indexOf('€')).trim(); //Récupère la ligne jusqu'au €
+            System.out.println(strList2);
+
+            String strList3 = strList2.substring(strList2.indexOf('|')).trim(); //Récupère la ligne entière - la ligne sans le numéro
+            System.out.println(strList3);
+
+            Matcher matcher = Pattern.compile("\\d+").matcher(strList3);
+            matcher.find();
+            int selectRev = Integer.valueOf(matcher.group());
+
+
 
             DAOFactory dao = MySQLFactoryDAO.getDaoFactory(Enumerations.MYSQL);
-            List<Revue> supp = dao.getRevueDao().getByLibelle(selectRev);
+            Revue supp = dao.getRevueDao().getById(selectRev);
 
-            while(!supp.isEmpty()){
-                dao.getRevueDao().delete(supp.get(1));
-            }
+
+            dao.getRevueDao().delete(supp);
+            this.initRevue();
+
         }
     }
     public void switchAccueil(ActionEvent event){
@@ -203,7 +220,23 @@ public class CtrlCreer implements Initializable {
         }
     }
 
+    public void initRevue(){
+        DAOFactory daoData = DAOFactory.getDaoFactory(Enumerations.MYSQL);
+        List<Revue> tridata = daoData.getRevueDao().getAll();
 
+        List<String> lbl = new ArrayList<>();
+
+        for (Revue rev: tridata) { //Boucle pour traiter chaque Revue
+            int idrev = rev.getId_revue();
+            String title = rev.getTitre();
+            String desc = rev.getDescription();
+            float price = rev.getTarif_numero();
+
+            lbl.add( title + " || " + desc + " || " + price + "€ || " +idrev);
+        }
+
+        this.listview_data.setItems(FXCollections.observableArrayList(lbl)); //Initialise les revues deja presentes dans la bdd
+    }
 
 
 }

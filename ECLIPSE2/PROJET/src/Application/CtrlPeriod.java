@@ -17,10 +17,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,23 +38,12 @@ public class CtrlPeriod implements Initializable {
     @FXML
     public ListView listview_period;
 
+    @FXML
+    private TextField txt_titre;
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        DAOFactory dao = DAOFactory.getDaoFactory(Enumerations.MYSQL);
-        List<Periodicite> periodList = dao.getPeriodiciteDao().getAll();
-
-        List<String> period = new ArrayList<>();
-        List<String> lbl = new ArrayList<>();
-
-        for (Periodicite rev: periodList) { //Boucle pour traiter chaque Revue
-            int id = rev.getID();
-            String title = rev.getLib();
-
-            lbl.add("numéro " + id + " || " + title );
-        }
-
-        this.listview_period.setItems(FXCollections.observableArrayList(lbl)); //Initialise les revues deja presentes dans la bdd
-
+        this.initListview();
     }
 
     public void switchAccueil(ActionEvent event){
@@ -85,7 +76,62 @@ public class CtrlPeriod implements Initializable {
             Periodicite supp = dao.getPeriodiciteDao().getById(idperio);
 
             dao.getPeriodiciteDao().delete(supp);
+            this.initListview();
 
         }
+    }
+
+    public void create() {
+        String periodtitre = this.txt_titre.getText().trim();
+
+        if (periodtitre == "") {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Création de périodicitée");
+            alert.setContentText("Veuillez donner un titre à la périodicitée !");
+
+            alert.showAndWait();
+        } else {
+            DAOFactory dao = MySQLFactoryDAO.getDaoFactory(Enumerations.MYSQL);
+            List<Periodicite> period = dao.getPeriodiciteDao().getAll();
+
+            int periodnb = period.size();
+
+            int idperio = periodnb+1;
+
+            Periodicite newperiod = new Periodicite(idperio, periodtitre);
+
+            try {
+                DAOFactory dao2 = MySQLFactoryDAO.getDaoFactory(Enumerations.MYSQL);
+                dao2.getPeriodiciteDao().create(newperiod);
+
+                this.initListview();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Création de périodicitée");
+            alert.setContentText("Périodicitée créée avec succès !");
+
+            alert.showAndWait();
+        }
+    }
+
+    public void initListview(){
+        DAOFactory dao = DAOFactory.getDaoFactory(Enumerations.MYSQL);
+        List<Periodicite> periodList = dao.getPeriodiciteDao().getAll();
+
+        List<String> period = new ArrayList<>();
+        List<String> lbl = new ArrayList<>();
+
+        for (Periodicite rev: periodList) { //Boucle pour traiter chaque Revue
+            int id = rev.getID();
+            String title = rev.getLib();
+
+            lbl.add("numéro " + id + " || " + title );
+        }
+
+        this.listview_period.setItems(FXCollections.observableArrayList(lbl)); //Initialise les revues deja presentes dans la bdd
+
     }
 }

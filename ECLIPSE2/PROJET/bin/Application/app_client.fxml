@@ -33,13 +33,13 @@
             <Label fx:id="labelAffVille" alignment="CENTER_RIGHT" prefHeight="21.0" prefWidth="600.0" text="Ville" GridPane.rowIndex="5" />
             <Label fx:id="labelAffPays" alignment="CENTER_RIGHT" prefHeight="21.0" prefWidth="600.0" text="Pays" GridPane.rowIndex="6" />
             <Label fx:id="labelAffNumeroDeRue" alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="601.0" text="Numéro de rue" GridPane.rowIndex="2" />
-            <TextField fx:id="txt_nom" maxWidth="200.0" minWidth="200.0" text="MAROTTA" GridPane.columnIndex="1" />
-            <TextField fx:id="txt_prenom" maxWidth="200.0" text="Titouan" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="txt_num_rue" alignment="CENTER" maxWidth="40.0" text="10" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="txt_voie" maxWidth="400.0" text="rue des coquelicots" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="txt_code_postal" maxWidth="50.0" text="50000" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="txt_ville" maxWidth="200.0" text="METZ" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="txt_pays" maxWidth="200.0" text="FRANCE" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="txt_nom" maxWidth="200.0" minWidth="200.0" GridPane.columnIndex="1" />
+            <TextField fx:id="txt_prenom" maxWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="txt_num_rue" alignment="CENTER" maxWidth="40.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txt_voie" maxWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="txt_code_postal" maxWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="txt_ville" maxWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="txt_pays" maxWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
       </GridPane>
       <GridPane prefHeight="167.0" prefWidth="600.0">
@@ -63,8 +63,8 @@
               </rowConstraints>
                <children>
                   <Button fx:id="labelAffCreer" alignment="CENTER" mnemonicParsing="false" onAction="#creerClient" prefHeight="25.0" prefWidth="77.0" text="Créer" GridPane.halignment="CENTER" />
-                  <Button fx:id="btn_retouraccueil" mnemonicParsing="false" text="Retour Accueil" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                  <Button fx:id="btn_supp" mnemonicParsing="false" text="Supprimer" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="btn_retouraccueil" mnemonicParsing="false" onAction="#switchAccueil" text="Retour Accueil" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <Button fx:id="btn_supp" mnemonicParsing="false" onAction="#supp" text="Supprimer" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </children>

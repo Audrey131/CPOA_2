@@ -32,7 +32,6 @@ import java.util.ResourceBundle;
 public class CtrlAccueil implements Initializable {
     private Connexion connexion;
 
-
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -60,7 +59,6 @@ public class CtrlAccueil implements Initializable {
         Connection laConnexion = connexion.creeConnexion();
 
         DAOFactory dao = DAOFactory.getDaoFactory(Enumerations.MYSQL);
-
         List<Revue> revueList = dao.getRevueDao().getAll();
         String nbrev = String.valueOf(revueList.size());
         lbl_nbrev.setText(nbrev);
