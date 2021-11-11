@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.CtrlAccueil">
+   <children>
+      <FlowPane prefHeight="61.0" prefWidth="600.0">
+         <children>
+            <GridPane prefHeight="90.0" prefWidth="599.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="566.0000203450521" minWidth="10.0" prefWidth="566.0000203450521" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" prefHeight="21.0" prefWidth="489.0" text="Bienvenue dans l'application de gestion de la société RevuesOnLine !" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+         </children>
+      </FlowPane>
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="btn_rev2" alignment="CENTER" mnemonicParsing="false" onAction="#switchRevue" prefWidth="100.0" text="Revues" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Button fx:id="btn_abo" mnemonicParsing="false" onAction="#switchAbo" prefWidth="100.0" text="Abonnements" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Button fx:id="btn_formule" mnemonicParsing="false" prefWidth="100.0" text="Formules" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Button fx:id="btn_client" mnemonicParsing="false" onAction="#switchClient" prefWidth="100.0" text="Clients" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Button fx:id="btn_duree" mnemonicParsing="false" prefWidth="100.0" text="Durée" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Button fx:id="btn_perio" mnemonicParsing="false" onAction="#switchPerio" prefWidth="100.0" text="Périodicitée" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+         </children>
+      </GridPane>
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label id="lbl_nbrev" text="Nombre de revues proposées à la vente :" GridPane.halignment="RIGHT" />
+            <Label text="Nombre de clients enregistrés :" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+            <Label id="lbl_nbabo" text="Nombre d'abonnements enregistrés :" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <Label fx:id="lbl_nbrev" GridPane.columnIndex="1" />
+            <Label id="lbl_nbcl" fx:id="lbl_nbcl" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="lbl_nbabo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+   </children>
+</VBox>

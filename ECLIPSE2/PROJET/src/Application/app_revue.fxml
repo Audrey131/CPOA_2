@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.CtrlCreer">
+   <children>
+      <GridPane prefHeight="265.0" prefWidth="591.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="570.6667073567708" minWidth="10.0" prefWidth="362.00002034505206" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.33331298828125" minWidth="10.0" prefWidth="237.99997965494794" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <GridPane prefHeight="285.0" prefWidth="600.0">
+               <columnConstraints>
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="146.66665649414062" minWidth="10.0" prefWidth="84.66666666666666" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="298.0" minWidth="10.0" prefWidth="298.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Titre :" />
+                  <Label text="Description :" GridPane.rowIndex="1" />
+                  <Label text="Tarif :" GridPane.rowIndex="2" />
+                  <Label text="Périodicité :" GridPane.rowIndex="3" />
+                  <TextField id="txt_titre" fx:id="txt_titre" GridPane.columnIndex="1" />
+                  <TextArea id="txt_desc" fx:id="txt_desc" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ComboBox id="cbb_period" fx:id="cbb_period" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TextField id="txt_tarif" fx:id="txt_tarif" prefHeight="25.0" prefWidth="133.0" />
+                        <Label text=" euros au numéro" GridPane.columnIndex="1" />
+                     </children>
+                  </GridPane>
+               </children>
+            </GridPane>
+            <GridPane GridPane.columnIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="147.66667938232422" minHeight="10.0" prefHeight="147.66667938232422" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="96.33331298828125" minHeight="10.0" prefHeight="54.33332061767578" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="96.33331298828125" minHeight="10.0" prefHeight="54.33332061767578" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView id="img_view" fx:id="img_view" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <image>
+                        <Image url="@../../img/NoImage.png" />
+                     </image>
+                  </ImageView>
+                  <Button id="btn_modifyimg" fx:id="btn_modifyimg" mnemonicParsing="false" onAction="#selectImg" text="Modifier l'image" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                  <Label id="lbl_img" fx:id="lbl_img" text="Image de couverture" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+               </children>
+            </GridPane>
+         </children>
+      </GridPane>
+      <FlowPane alignment="TOP_CENTER" prefHeight="27.0" prefWidth="600.0">
+         <children>
+            <Button id="btn_create" fx:id="btn_create" mnemonicParsing="false" onAction="#create" text="Créer" />
+         </children>
+      </FlowPane>
+      <FlowPane alignment="TOP_CENTER" prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <GridPane prefHeight="135.0" prefWidth="598.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="501.66668701171875" minWidth="10.0" prefWidth="361.33331298828125" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="294.33331298828125" minWidth="10.0" prefWidth="237.33335367838538" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <GridPane alignment="TOP_CENTER" prefHeight="135.0" prefWidth="244.0" GridPane.columnIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Button id="btn_delete" fx:id="btn_delete" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#btnSupp" text="Supprimer la sélection" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                        <Button id="btn_detail" fx:id="btn_detail" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Détails" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                        <GridPane GridPane.rowIndex="2">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="114.33331298828125" minWidth="10.0" prefWidth="101.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="137.0" minWidth="10.0" prefWidth="137.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#switchAccueil" text="Retour Accueil" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </GridPane>
+                  <ListView id="listview_data" fx:id="listview_data" prefHeight="135.0" prefWidth="339.0" />
+               </children>
+            </GridPane>
+         </children>
+      </FlowPane>
+   </children>
+</VBox>
