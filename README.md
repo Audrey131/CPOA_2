@@ -1,5 +1,7 @@
 # CPOA_2
 
+/!\/!\/!\/!\/!\/!\ Le projet se trouve dans la branche "master" sous ECLIPSE2/PROJET /!\/!\/!\/!\/!\/!\/!\
+
 Lien vers le Trello : https://trello.com/b/9EnVOZ2q/td2-cpoa
 
 Le fichier CPOA_projet correspond au td1 et l'autre au td2
